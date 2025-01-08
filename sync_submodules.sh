@@ -81,7 +81,7 @@ else
 fi
 # 서브모듈에서 변경사항 확인 및 커밋/푸쉬
 git submodule foreach "
-    echo -e \"Processing submodule at \$sm_path...\"
+    echo -e \${b----------------------------------------lpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww}"Processing submodule at \$sm_path...\"
 
     # 변경사항 추가 및 커밋
     git add -A
