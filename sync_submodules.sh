@@ -73,6 +73,20 @@ fi
 echo -e "${YELLOW}Updating submodules and original directories...${RESET}"
 git submodule update --remote --recursive
 
+# 서브모듈에서 변경사항 확인 및 커밋/푸쉬
+git submodule foreach '
+    echo "Processing submodule at $sm_path..."
+    git pull --rebase
+    git add .gitattributes
+    if [[ $(git status --porcelain) ]]; then
+        echo "Local changes detected in $sm_path. Committing and pushing..."
+        git commit -m "Add .gitattributes for consistent line endings"
+        git push origin main
+    else
+        echo "No changes to commit in $sm_path."
+    fi
+'
+
 # 4-1. 모든 서브모듈 순회
 git submodule foreach '
     echo -e "${YELLOW}Updating submodule at $sm_path...${RESET}"
