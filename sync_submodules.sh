@@ -68,3 +68,16 @@ if [[ $(git status --porcelain) ]]; then
 else
     echo -e "${GREEN}No local changes detected.${RESET}"
 fi
+
+# 4. 서브모듈 업데이트 및 원본 위치 동기화
+echo -e "${YELLOW}Updating submodules and original directories...${RESET}"
+git submodule update --remote --recursive
+
+# 4-1. 모든 서브모듈 순회
+git submodule foreach '
+    echo -e "${YELLOW}Updating submodule at $sm_path...${RESET}"
+    git pull --recurse-submodules
+    ORIGINAL_PATH=$(pwd | sed "s|/library.*||") # 원본 경로 추출
+    echo -e "${YELLOW}Pulling changes in original location: $ORIGINAL_PATH${RESET}"
+    cd "$ORIGINAL_PATH" && git pull || { echo -e "${RED}Failed to update original path: $ORIGINAL_PATH${RESET}"; exit 1; }
+'
