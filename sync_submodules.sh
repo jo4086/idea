@@ -74,6 +74,7 @@ echo -e "${YELLOW}Updating submodules and original directories...${RESET}"
 git submodule update --remote --recursive
 
 # 서브모듈에서 변경사항 확인 및 커밋/푸쉬
+git submodule foreach "
     echo -e \"Processing submodule at \$sm_path...\"
 
     # 변경사항 추가 및 커밋
