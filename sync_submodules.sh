@@ -74,24 +74,25 @@ echo -e "${YELLOW}Updating submodules and original directories...${RESET}"
 git submodule update --remote --recursive
 
 # 서브모듈에서 변경사항 확인 및 커밋/푸쉬
-git submodule foreach '
-    echo "Processing submodule at $sm_path..."
-    git pull --rebase
+git submodule foreach "
+    echo -e \"${YELLOW}Processing submodule at \$sm_path...${RESET}\"
     git add .gitattributes
-    if [[ $(git status --porcelain) ]]; then
-        echo "Local changes detected in $sm_path. Committing and pushing..."
-        git commit -m "Add .gitattributes for consistent line endings"
+    if [[ \$(git status --porcelain) ]]; then
+        echo -e \"${CYAN}Local changes detected in \$sm_path. Committing and pushing...${RESET}\"
+        git commit -m \"Add .gitattributes for consistent line endings\"
         git push origin main
     else
-        echo "No changes to commit in $sm_path."
+        echo -e \"${GREEN}No changes to commit in \$sm_path.${RESET}\"
     fi
-'
 
-# 4-1. 모든 서브모듈 순회
-git submodule foreach '
-    echo -e "${YELLOW}Updating submodule at $sm_path...${RESET}"
-    git pull --recurse-submodules
-    ORIGINAL_PATH=$(pwd | sed "s|/library.*||") # 원본 경로 추출
-    echo -e "${YELLOW}Pulling changes in original location: $ORIGINAL_PATH${RESET}"
-    cd "$ORIGINAL_PATH" && git pull || { echo -e "${RED}Failed to update original path: $ORIGINAL_PATH${RESET}"; exit 1; }
-'
+    # 서브모듈의 원본 디렉토리에서 Git pull
+    ORIGINAL_PATH=\"/k/library/\${sm_path##*/}\"
+    echo -e \"${YELLOW}Pulling changes in original location: \$ORIGINAL_PATH${RESET}\"
+    if [[ -d \"\$ORIGINAL_PATH\" ]]; then
+        cd \"\$ORIGINAL_PATH\"
+        git pull --rebase || { echo -e \"${RED}Failed to pull in \$ORIGINAL_PATH.${RESET}\"; exit 1; }
+        cd - > /dev/null
+    else
+        echo -e \"${RED}Original path \$ORIGINAL_PATH does not exist.${RESET}\"
+    fi
+"
