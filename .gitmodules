@@ -1,3 +1,6 @@
 [submodule "library/propStyling"]
 	path = library/propStyling
 	url = https://github.com/jo4086/propStyling.git
+[submodule "library/howswift"]
+	path = library/howswift
+	url = https://github.com/jo4086/idea
