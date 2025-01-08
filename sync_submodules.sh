@@ -79,6 +79,8 @@ if [[ $(git status --porcelain) ]]; then
 else
     echo -e "${GREEN}No submodule changes to commit in parent repository.${RESET}"
 fi
+
+
 # 서브모듈에서 변경사항 확인 및 커밋/푸쉬
 git submodule foreach "
     echo -e \"Processing submodule at \$sm_path...\"
