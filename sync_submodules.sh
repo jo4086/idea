@@ -70,9 +70,15 @@ else
 fi
 
 # 4. 서브모듈 업데이트 및 원본 위치 동기화
-echo -e "${YELLOW}Updating submodules and original directories...${RESET}"
-git submodule update --remote --recursive
-
+echo -e "${YELLOW}Committing submodule changes in parent repository...${RESET}"
+if [[ $(git status --porcelain) ]]; then
+    git add library/howswift library/propStyling
+    git commit -m "Update submodule references to latest commits"
+    git push origin main || { echo -e "${RED}Failed to push parent repository changes.${RESET}"; exit 1; }
+    echo -e "${GREEN}SUCCESS: Submodule changes committed and pushed in parent repository.${RESET}"
+else
+    echo -e "${GREEN}No submodule changes to commit in parent repository.${RESET}"
+fi
 # 서브모듈에서 변경사항 확인 및 커밋/푸쉬
 git submodule foreach "
     echo -e \"Processing submodule at \$sm_path...\"
