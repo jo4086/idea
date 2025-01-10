@@ -12,8 +12,8 @@ RESET='\033[0m'
 ROOT_PATH=$(pwd | sed 's|/library.*||')
 
 # 1. 안전한 디렉토리 체크
-echo -e "${YELLOWBOLD}┌───── 1. Checking safe directories ...${RESET}"
-SAFE_REPOS=$(git config --global --get-all safe.directory | sed '/^\s*$/d')
+echo -e "${YELLOWBOLD}┌── 1. Checking safe directories ...${RESET}"
+SAFE_REPOS=$(git config --global --get-all safe.directory | sed '/^\s*$/d' | sort) 
 ALL_REPOS=$(find $(pwd | cut -d'/' -f1) -type d -name ".git" -print | sed 's|/.git||' | tr '[:lower:]' '[:upper:]' | sed 's|/|\\|g')
 SAFE_REPOS_UPPER=$(echo "$SAFE_REPOS" | tr '[:lower:]' '[:upper:]')
 
@@ -25,9 +25,9 @@ for REPO in $ALL_REPOS; do
     fi
 done
 
-echo -e "${YELLOWBOLD}└──┬[ ${RESET}${GREEN}Safe directories ${YELLOWBOLD}]${RESET}"
+echo -e "${YELLOWBOLD}└┬[ ${RESET}${GREEN}Safe directories ${YELLOWBOLD}]${RESET}"
 for REPO in $SAFE_REPOS; do
-    echo -e "${YELLOWBOLD}   └──>> ${RESET}$REPO${RESET}"
+    echo -e "${YELLOWBOLD} └> ${RESET}$REPO${RESET}"
 done
 
 
